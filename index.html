@@ -1,1 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>码上智慧</title>
+  <link rel="shortcut icon" href="img/MSLOGO1.gif" type="image/x-icon" />
+
+  <style>
+    /* 基础样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "楷体";
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://4kwallpapers.com/images/walls/thumbs_3t/18173.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;;
+    }
+
+    /* 导航栏 */
+    header {
+      background-color: #333;
+      padding: 10px;
+      text-align: center;
+      height: 60px;
+    }
+
+    header h1 {
+      color: white;
+
+    }
+
+    /* 侧边栏 */
+    .sidebar {
+      width: 200px;
+      background-color: rgba(104, 104, 104, 0.3);
+      backdrop-filter: blur(10px);
+      color: white;
+      position: fixed;
+      height: 100vh;
+      top: 60px;
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      text-align: center;
+    }
+
+    .sidebar ul li a {
+      color: rgb(220, 220, 220);
+      font-size: 18px;
+      font-weight: bold;;
+      text-decoration: none;
+      display: block;
+      padding-left: 15px;
+      padding-top:30px;
+      padding-bottom:30px;
+      width: 200px;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #555;
+      color: white;
+    }
+
+    /* 主内容 */
+    main {
+      display: flex;
+      margin-left: 220px;
+      padding: 20px;
+    }
+
+    .content {
+      flex: 1;
+    }
+    .boxs{
+      display: none;
+      h2{
+        margin-bottom:15px;
+        color: aliceblue;
+      }
+    }
+    .is-active{
+      display: block;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(23%, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .grid-item {
+      background-color: #f4f4f4;
+      margin: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      background-color: rgba(104, 104, 104, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .grid-item a {
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      color: rgb(221, 221, 221);
+    }
+
+    .grid-item a:hover {
+      color: red;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+    /* 弹窗样式 */
+    /* 弹窗的样式 */
+.modal {
+  display: none; /* 默认隐藏 */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  overflow: auto;
+  table{
+    .left{
+      text-align: right;
+    }
+    .right{
+      text-align: left;
+    }
+    .center{
+      text-align: center;
+    }
+  }
+}
+
+
+/* 弹窗内容 */
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+  text-align: center;
+  table{
+    margin: 20px auto;
+    .btn{
+      width: 100px;
+      height: 30px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    input{
+      margin-top: 10px;
+      margin-bottom:10px;
+      margin-left:5px;
+      width: 200px;
+      height: 25px;
+    }
+  }
+}
+
+/* 关闭按钮 */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: rgb(255, 0, 0);
+}
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>运维天命人</h1>
+  </header>
+
+  <main>
+    <section class="sidebar">
+      <ul>
+        <li><a href="#" onclick="showBox('box1')">数据操作</a></li>
+        <li><a href="#" onclick="showBox('box2')">月结相关</a></li>
+        <!-- <li><a href="#">AIGC 视频工具</a></li> -->
+        <!-- 更多侧边栏内容 -->
+      </ul>
+    </section>
+
+    <section class="content">
+      <div id="box1" class="boxs">
+        <h2>数据操作</h2>
+        <hr>
+        <div class="grid-container">
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('取得日期')">取得日期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('数量/面积')">数量/面积</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('计量单位')">计量单位</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('规格型号')">规格型号</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('会计凭证号')">会计凭证号</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('投入使用日期')">投入使用日期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('是否终审')">是否终审</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('是否有效启用状态')">是否有效启用状态</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('月折旧/摊销额')">月折旧/摊销额</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('资产负债表')">资产负债表</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('坐落位置')">坐落位置</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('删除资产')">删除资产</a>
+          </div>
+          <!-- 更多网格内容 -->
+        </div>
+      </div>
+      <div id="box2" class="boxs">
+        <h2>月结相关</h2>
+        <hr>
+        <div class="grid-container">
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('清空账期')">清空账期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('修改当前业务账期')">修改当前业务账期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('生成新账期')">生成新账期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('删除重复账期')">删除重复账期</a>
+          </div>
+          <!-- 更多网格内容 -->
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- 弹窗 -->
+  <div id="formModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h4 id="modalTitle">表单</h4>
+      <table>
+        <form id="dynamicForm" onsubmit="handleSubmit(event)">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">唯一标识：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="id" name="id">
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabel" for="dynamicInput">字段名：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInput" name="dynamicAttribute">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+</body>
+<script>
+  function showBox(boxId) {
+    // 隐藏所有表单
+    var boxs = document.querySelectorAll('.boxs');
+    boxs.forEach((box) => {
+      box.classList.remove('is-active');
+    });
+
+    // 显示指定表单
+    var selectedBox = document.getElementById(boxId);
+    if (selectedBox) {
+      selectedBox.classList.add('is-active');
+    }
+  }
+
+  // 打开表单弹窗并设置动态属性
+function openFormModal(attributeValue) {
+  // 显示弹窗
+  var modal = document.getElementById('formModal');
+  modal.style.display = 'block';
+
+  // 修改弹窗标题和动态表单属性
+  var modalTitle = document.getElementById('modalTitle');
+  var dynamicLabel = document.getElementById('dynamicLabel');
+  var dynamicInput = document.getElementById('dynamicInput');
+
+  modalTitle.innerText = '操作内容：' + attributeValue;
+  dynamicLabel.innerText = attributeValue + '：';
+  dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
+}
+
+// 关闭弹窗
+function closeModal() {
+  var modal = document.getElementById('formModal');
+  modal.style.display = 'none';
+}
+
+// 表单提交处理
+function handleSubmit(event) {
+  event.preventDefault(); // 阻止默认表单提交行为
+
+  // 获取表单数据
+  var form = document.getElementById('dynamicForm');
+  var formData = new FormData(form);
+  let account1 = ''
+  let pwd1 = ''
+  let belongCode1 = ''
+  let code = ''
+  let name = ''
+  let data = ''
+  // 打印表单数据用于调试
+  for (var [key, value] of formData.entries()) {
+    if(key === "account"){
+      account1 = value;
+    } else if(key === "pwd"){
+      pwd1 = value;
+    } else if(key === "belongCode"){
+      belongCode1 = value;
+    } else if(key === "id"){
+      code =  value;
+    } else {
+      name = key;
+      data = value;
+    }
+  }
+  console.log(account1, pwd1, belongCode1, code, name, data);
+
+
+  let baseUrl = '';
+  let queryParams = '';
+  let fullUrl='';
+  const elements = document.getElementsByClassName('is-active');
+  const chioce = elements[0].id;
+  if(chioce === 'box1'){
+    baseUrl = 'https://api.assetzj.cn/lddTest/UpdateInformation'
+    queryParams = `?account1=${account1}&pwd1=${pwd1}&belongCode1=${belongCode1}&code=${code}&name=${name}&data=${data}`;
+    fullUrl = baseUrl + queryParams;
+  } else if (chioce === 'box2'){
+    baseUrl = 'https://api.assetzj.cn/lddTest/updatePeriod';
+    queryParams = `?account1=${account1}&pwd1=${pwd1}&belongCode1=${belongCode1}&date=${data}&name=${name}`;
+    fullUrl = baseUrl + queryParams;
+  } 
+  if(name === '删除资产'){
+    console.log('删除资产');
+    baseUrl = 'https://api.assetzj.cn/lddTest/isDelete';
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}`;
+    fullUrl = baseUrl + queryParams;
+  }
+  
+  // TODO: 使用 fetch 或 AJAX 发送请求
+  fetch(fullUrl, {
+    method: 'GET'
+  }).then(response => response.json())
+    .then(data => {
+      console.log(data)
+      alert(JSON.stringify(data))
+    })
+    .catch(error => console.error('Error:', error));
+  
+  closeModal(); // 提交后关闭弹窗
+}
+
+// 点击弹窗外关闭弹窗
+window.onclick = function(event) {
+  var modal = document.getElementById('formModal');
+  if (event.target == modal) {
+    closeModal();
+  }
+}
+
+
+  // 页面加载时默认展示第一个表单
+  window.onload = function () {
+    showBox('box1');  // 默认展示表单 1
+  };
+</script>
+
+</html>
