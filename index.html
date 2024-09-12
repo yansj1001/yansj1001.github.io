@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="imaegs/MSLOGO1.gif" type="image/x-icon">
   <title>码上智慧</title>
-  <link rel="shortcut icon" href="imaegs/MSLOGO1.gif" type="image/x-icon" />
 
   <style>
     /* 基础样式 */
@@ -153,7 +153,7 @@
 /* 弹窗内容 */
 .modal-content {
   background-color: white;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
@@ -205,6 +205,7 @@
       <ul>
         <li><a href="#" onclick="showBox('box1')">数据操作</a></li>
         <li><a href="#" onclick="showBox('box2')">月结相关</a></li>
+        <li><a href="#" onclick="showBox('box3')">总账相关</a></li>
         <!-- <li><a href="#">AIGC 视频工具</a></li> -->
         <!-- 更多侧边栏内容 -->
       </ul>
@@ -273,15 +274,31 @@
           <!-- 更多网格内容 -->
         </div>
       </div>
+      <div id="box3" class="boxs">
+        <h2>总账相关</h2>
+        <hr>
+        <div class="grid-container">
+          <div class="grid-item">
+            <a href="#" onclick="openZongZhangModal('资产入账')">资产入账</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openZongZhangModal('入库入账修复')">入库入账修复</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openReplaceModal('期初期末数据为空')">期初期末数据为空</a>
+          </div>
+          <!-- 更多网格内容 -->
+        </div>
+      </div>
     </section>
   </main>
   <!-- 弹窗 -->
   <div id="formModal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
+      <span class="close" onclick="closeModal('formModal')">&times;</span>
       <h4 id="modalTitle">表单</h4>
       <table>
-        <form id="dynamicForm" onsubmit="handleSubmit(event)">
+        <form id="dynamicForm" onsubmit="handleSubmit(event,'dynamicForm')">
           <tr>
             <td class="left">
               <label for="account">账号：</label>
@@ -311,7 +328,7 @@
               <label for="id">唯一标识：</label>
             </td>
             <td class="right">
-              <input type="text" id="id" name="id">
+              <input type="text" id="code" name="id">
             </td>
           </tr>
           <!-- 动态修改属性名的输入字段 -->
@@ -321,6 +338,120 @@
             </td>
             <td class="right">
               <input type="text" id="dynamicInput" name="dynamicAttribute">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+  <!-- 总账弹框 -->
+  <div id="formModalZZ" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalZZ')">&times;</span>
+      <h4 id="modalTitleZZ">表单</h4>
+      <table>
+        <form id="dynamicFormZZ" onsubmit="handleSubmit(event,'dynamicFormZZ')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">唯一标识：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="code" name="id">
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabelZZ" for="dynamicInput">月份：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputZZ" name="dynamicAttribute">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+  <!-- 期初期末为空弹框 -->
+  <div id="formModalZZ1" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalZZ1')">&times;</span>
+      <h4 id="modalTitleZZ1">表单</h4>
+      <table>
+        <form id="dynamicFormZZ1" onsubmit="handleSubmit(event,'dynamicFormZZ1')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">被刷入表名：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="collName" name="collName" placeholder="_system-things/_system-things_2024-07" required>
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabelZZ1" for="dynamicInput">存放刷入数据表名：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputZZ1" name="dynamicAttribute" placeholder="7月就填_system-things_2024-06">
             </td>
           </tr>
           <tr>
@@ -346,6 +477,8 @@
     if (selectedBox) {
       selectedBox.classList.add('is-active');
     }
+    
+
   }
 
   // 打开表单弹窗并设置动态属性
@@ -364,27 +497,62 @@ function openFormModal(attributeValue) {
   dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
 }
 
+// 打开总账弹窗并设置动态属性
+function openZongZhangModal(attributeValue) {
+  console.log(attributeValue);
+  // 显示弹窗
+  var modal = document.getElementById('formModalZZ');
+  modal.style.display = 'block';
+
+  // 修改弹窗标题和动态表单属性
+  var modalTitle = document.getElementById('modalTitleZZ');
+  var dynamicLabel = document.getElementById('dynamicLabelZZ');
+  var dynamicInput = document.getElementById('dynamicInputZZ');
+
+  modalTitle.innerText = '操作内容：' + attributeValue;
+  dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
+}
+
+//打开期初期末为空的弹窗
+function openReplaceModal(attributeValue) {
+  console.log(attributeValue);
+  // 显示弹窗
+  var modal = document.getElementById('formModalZZ1');
+  modal.style.display = 'block';
+
+  // 修改弹窗标题和动态表单属性
+  var modalTitle = document.getElementById('modalTitleZZ1');
+  var dynamicLabel = document.getElementById('dynamicLabelZZ1');
+  var dynamicInput = document.getElementById('dynamicInputZZ1');
+
+  modalTitle.innerText = '操作内容：' + attributeValue;
+  dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
+}
+
 // 关闭弹窗
-function closeModal() {
-  var modal = document.getElementById('formModal');
+function closeModal(id) {
+  console.log(id)
+  var modal = document.getElementById(id);
   modal.style.display = 'none';
 }
 
 // 表单提交处理
-function handleSubmit(event) {
+function handleSubmit(event,id) {
   event.preventDefault(); // 阻止默认表单提交行为
 
   // 获取表单数据
-  var form = document.getElementById('dynamicForm');
+  var form = document.getElementById(id);
   var formData = new FormData(form);
   let account1 = ''
   let pwd1 = ''
   let belongCode1 = ''
   let code = ''
+  let collName = ''
   let name = ''
   let data = ''
   // 打印表单数据用于调试
   for (var [key, value] of formData.entries()) {
+    console.log(key, value);
     if(key === "account"){
       account1 = value;
     } else if(key === "pwd"){
@@ -393,12 +561,14 @@ function handleSubmit(event) {
       belongCode1 = value;
     } else if(key === "id"){
       code =  value;
+    } else if(key === 'collName'){
+      collName = value;
     } else {
       name = key;
       data = value;
     }
   }
-  console.log(account1, pwd1, belongCode1, code, name, data);
+  console.log(account1, pwd1, belongCode1, code,collName, name, data);
 
 
   let baseUrl = '';
@@ -420,9 +590,21 @@ function handleSubmit(event) {
     baseUrl = 'https://api.assetzj.cn/lddTest/isDelete';
     queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}`;
     fullUrl = baseUrl + queryParams;
+  } else if(name === '资产入账'){
+    baseUrl = 'https://api.assetzj.cn/lddTest/insterInfo';
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&time=${data}&id=${code}`;
+    fullUrl = baseUrl + queryParams;
+  } else if(name === '入库入账修复'){
+    baseUrl = 'https://api.assetzj.cn/lddTest/checkRepair';
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&date=${data}&id=${code}`;
+    fullUrl = baseUrl + queryParams;
+  } else if(name === '期初期末数据为空'){
+    baseUrl = 'https://api.assetzj.cn/lddTest/dataOverlay';
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&collName=${collName}&targetCollName=${data}`;
+    fullUrl = baseUrl + queryParams;
   }
-  
-  // TODO: 使用 fetch 或 AJAX 发送请求
+  console.log(fullUrl);
+  //TODO: 使用 fetch 或 AJAX 发送请求
   fetch(fullUrl, {
     method: 'GET'
   }).then(response => response.json())
@@ -432,22 +614,14 @@ function handleSubmit(event) {
     })
     .catch(error => console.error('Error:', error));
   
-  closeModal(); // 提交后关闭弹窗
+  closeModal(id); // 提交后关闭弹窗
 }
-
-// 点击弹窗外关闭弹窗
-window.onclick = function(event) {
-  var modal = document.getElementById('formModal');
-  if (event.target == modal) {
-    closeModal();
-  }
-}
-
 
   // 页面加载时默认展示第一个表单
   window.onload = function () {
     showBox('box1');  // 默认展示表单 1
   };
+
 </script>
 
 </html>
