@@ -287,12 +287,15 @@
           <div class="grid-item">
             <a href="#" onclick="openReplaceModal('期初期末数据为空')">期初期末数据为空</a>
           </div>
+          <div class="grid-item">
+            <a href="#" onclick="openDeleteModal('删除总账记录')">删除总账记录</a>
+          </div>
           <!-- 更多网格内容 -->
         </div>
       </div>
     </section>
   </main>
-  <!-- 弹窗 -->
+  <!-- 通用弹窗 -->
   <div id="formModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('formModal')">&times;</span>
@@ -463,6 +466,71 @@
       </table>
     </div>
   </div>
+  <!-- 总账记录删除 -->
+  <div id="formModalZZ2" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalZZ2')">&times;</span>
+      <h4 id="modalTitleZZ2">表单</h4>
+      <table>
+        <form id="dynamicFormZZ2" onsubmit="handleSubmit(event,'dynamicFormZZ2')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">唯一标识：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="code" name="id" required>
+            </td>
+          </tr>
+          <tr></tr>
+            <td class="left">
+              <label for="choose">增加/减少：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="choose" name="choose" placeholder="删除增加填1，删除减少填-1" required>
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabelZZ2" for="dynamicInput">月份：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputZZ2" name="dynamicAttribute" placeholder="7月就填_system-things_2024-06">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
 </body>
 <script>
   function showBox(boxId) {
@@ -529,6 +597,23 @@ function openReplaceModal(attributeValue) {
   dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
 }
 
+//打开总账记录删除弹窗
+function openDeleteModal(attributeValue) {
+  console.log(attributeValue);
+  alert('由于系统问题，增加减少在系统页面只展示一条，但是实际上有两条或者更多，如果显示successed但没生效就多删几次')
+  // 显示弹窗
+  var modal = document.getElementById('formModalZZ2');
+  modal.style.display = 'block';
+
+  // 修改弹窗标题和动态表单属性
+  var modalTitle = document.getElementById('modalTitleZZ2');
+  var dynamicLabel = document.getElementById('dynamicLabelZZ2');
+  var dynamicInput = document.getElementById('dynamicInputZZ2');
+
+  modalTitle.innerText = '操作内容：' + attributeValue;
+  dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
+}
+
 // 关闭弹窗
 function closeModal(id) {
   console.log(id)
@@ -548,6 +633,7 @@ function handleSubmit(event,id) {
   let belongCode1 = ''
   let code = ''
   let collName = ''
+  let choose = ''
   let name = ''
   let data = ''
   // 打印表单数据用于调试
@@ -563,12 +649,14 @@ function handleSubmit(event,id) {
       code =  value;
     } else if(key === 'collName'){
       collName = value;
-    } else {
+    } else if(key === 'choose'){
+      choose = value;
+    }else {
       name = key;
       data = value;
     }
   }
-  console.log(account1, pwd1, belongCode1, code,collName, name, data);
+  console.log(account1, pwd1, belongCode1, code,choose, name, data);
 
 
   let baseUrl = '';
@@ -601,6 +689,10 @@ function handleSubmit(event,id) {
   } else if(name === '期初期末数据为空'){
     baseUrl = 'https://api.assetzj.cn/lddTest/dataOverlay';
     queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&collName=${collName}&targetCollName=${data}`;
+    fullUrl = baseUrl + queryParams;
+  } else if(name === '删除总账记录'){
+    baseUrl = 'https://api.assetzj.cn/YansjTest/Tools/deleteRecord';
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&time=${data}&flag=${choose}`;
     fullUrl = baseUrl + queryParams;
   }
   console.log(fullUrl);
