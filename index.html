@@ -302,6 +302,9 @@
           <div class="grid-item">
             <a href="#" onclick="openDeleteModal('删除总账折旧记录')">删除总账折旧记录</a>
           </div>
+          <div class="grid-item">
+            <a href="#" onclick="openZongZhangModal('资产销账')">资产销账</a>
+          </div>
           <!-- 更多网格内容 -->
         </div>
       </div>
@@ -722,6 +725,10 @@ function handleSubmit(event,id) {
   } else if(name === '销账恢复'){
     baseUrl = 'https://api.assetzj.cn/YansjTest/Tools/Recover'
     queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}`;
+    fullUrl = baseUrl + queryParams;
+  } else if(name === '资产销账'){
+    baseUrl = 'https://api.assetzj.cn/lddTest/writeOff'
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&time=${data}`;
     fullUrl = baseUrl + queryParams;
   }
   console.log(fullUrl);
