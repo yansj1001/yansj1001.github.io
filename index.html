@@ -18,7 +18,7 @@
 
     body {
       font-family: Arial, sans-serif;
-      background-image: url('imaegs/YunWeiTianMingRen.jpg');
+      background-image: url('https://4kwallpapers.com/images/walls/thumbs_3t/18173.jpg');
       background-repeat: no-repeat;
       background-size: cover;;
     }
@@ -66,6 +66,11 @@
     }
 
     .sidebar ul li a:hover {
+      background-color: #555;
+      color: white;
+    }
+
+    .actve{
       background-color: #555;
       color: white;
     }
@@ -192,6 +197,7 @@
   color: rgb(255, 0, 0);
 }
 
+
   </style>
 </head>
 
@@ -203,7 +209,7 @@
   <main>
     <section class="sidebar">
       <ul>
-        <li><a href="#" onclick="showBox('box1')">数据操作</a></li>
+        <li><a href="#" onclick='showBox("box1")'>数据操作</a></li>
         <li><a href="#" onclick="showBox('box2')">月结相关</a></li>
         <li><a href="#" onclick="showBox('box3')">总账相关</a></li>
         <!-- <li><a href="#">AIGC 视频工具</a></li> -->
@@ -252,6 +258,9 @@
           <div class="grid-item">
             <a href="#" onclick="openFormModal('删除资产')">删除资产</a>
           </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('销账恢复')">销账恢复</a>
+          </div>
           <!-- 更多网格内容 -->
         </div>
       </div>
@@ -289,6 +298,9 @@
           </div>
           <div class="grid-item">
             <a href="#" onclick="openDeleteModal('删除总账记录')">删除总账记录</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openDeleteModal('删除总账折旧记录')">删除总账折旧记录</a>
           </div>
           <!-- 更多网格内容 -->
         </div>
@@ -505,12 +517,20 @@
               <input type="text" id="code" name="id" required>
             </td>
           </tr>
-          <tr></tr>
+          <tr>
             <td class="left">
               <label for="choose">增加/减少：</label>
             </td>
             <td class="right">
               <input type="text" id="choose" name="choose" placeholder="删除增加填1，删除减少填-1" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="BSname">办事名称：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="BSname" name="BSname" required>
             </td>
           </tr>
           <!-- 动态修改属性名的输入字段 -->
@@ -545,8 +565,6 @@
     if (selectedBox) {
       selectedBox.classList.add('is-active');
     }
-    
-
   }
 
   // 打开表单弹窗并设置动态属性
@@ -636,6 +654,7 @@ function handleSubmit(event,id) {
   let choose = ''
   let name = ''
   let data = ''
+  let BSname = ''
   // 打印表单数据用于调试
   for (var [key, value] of formData.entries()) {
     console.log(key, value);
@@ -651,7 +670,9 @@ function handleSubmit(event,id) {
       collName = value;
     } else if(key === 'choose'){
       choose = value;
-    }else {
+    }else if(key === 'BSname'){
+      BSname = value;
+    }else{
       name = key;
       data = value;
     }
@@ -692,21 +713,29 @@ function handleSubmit(event,id) {
     fullUrl = baseUrl + queryParams;
   } else if(name === '删除总账记录'){
     baseUrl = 'https://api.assetzj.cn/YansjTest/Tools/deleteRecord';
-    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&time=${data}&flag=${choose}`;
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&time=${data}&flag=${choose}&name=${BSname}`;
+    fullUrl = baseUrl + queryParams;
+  } else if(name === '删除总账折旧记录'){
+    baseUrl = 'https://api.assetzj.cn/YansjTest/Tools/deleteZheJiu'
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&time=${data}&flag=${choose}&name=${BSname}`;
+    fullUrl = baseUrl + queryParams;
+  } else if(name === '销账恢复'){
+    baseUrl = 'https://api.assetzj.cn/YansjTest/Tools/Recover'
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}`;
     fullUrl = baseUrl + queryParams;
   }
   console.log(fullUrl);
   //TODO: 使用 fetch 或 AJAX 发送请求
-  fetch(fullUrl, {
-    method: 'GET'
-  }).then(response => response.json())
-    .then(data => {
-      console.log(data)
-      alert(JSON.stringify(data))
-    })
-    .catch(error => console.error('Error:', error));
+   fetch(fullUrl, {
+     method: 'GET'
+   }).then(response => response.json())
+     .then(data => {
+       console.log(data)
+       alert(JSON.stringify(data))
+     })
+     .catch(error => console.error('Error:', error));
   
-  closeModal(id); // 提交后关闭弹窗
+   closeModal(id); // 提交后关闭弹窗
 }
 
   // 页面加载时默认展示第一个表单
