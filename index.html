@@ -80,6 +80,9 @@
           <div class="grid-item">
             <a href="#" onclick="openFormModal('删除资产锁')">删除资产锁</a>
           </div>
+          <div class="grid-item">
+            <a href="#" onclick="openZTModal('修改状态')">修改状态</a>
+          </div>
           <!-- 更多网格内容 -->
         </div>
       </div>
@@ -127,6 +130,7 @@
       </div>
     </section>
   </main>
+  <!-- 通用弹框 -->
   <div id="formModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('formModal')">&times;</span>
@@ -425,6 +429,85 @@
           </tr>
         </table>
       </form>
+    </div>
+  </div>
+  <!-- 状态弹框 -->
+  <div id="formModalZt" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalZt')">&times;</span>
+      <h4 id="modalTitleZt">表单</h4>
+      <table>
+        <form id="dynamicFormZt" onsubmit="handleSubmit(event,'dynamicFormZt')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">唯一标识：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="code" name="id">
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">状态名称：</label>
+            </td>
+            <td class="right">
+              <select id="first-select" name="ztKey">
+                <option value="财务入账状态名称">财务入账状态名称</option>
+                <option value="资产状态名称">资产状态名称</option>
+                <option value="资产入库状态">资产入库状态</option>
+                <option value="接收状态名称">接收状态名称</option>
+                <option value="是否有效启用状态">是否有效启用状态</option>
+                <option value="核销状态">核销状态</option>
+                <option value="资产状态">资产状态</option>
+                <option value="资产状态名称">资产状态名称</option>
+                <option value="资产处置回收方式">资产处置回收方式</option>
+                <option value="处置形式名称">处置形式名称</option>
+                <option value="折旧/摊销方法名称">折旧/摊销方法名称</option>
+                <option value="折旧/摊销状态名称">折旧/摊销状态名称</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">状态值：</label>
+            </td>
+            <td class="right">
+              <select id="second-select" name="ztValue">
+                <!-- 默认选项 -->
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
     </div>
   </div>
 </body>

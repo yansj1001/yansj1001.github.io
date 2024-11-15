@@ -30,6 +30,46 @@ let dataArray = []
   reader.readAsArrayBuffer(file);
   })
 
+  //动态设置下拉框内容
+  const options = {
+    "财务入账状态名称":['已入账','未入账'],
+    "资产状态名称":['在用','闲置', '报废','其他'],
+    "资产入库状态":['已入库','未入库'],
+    "接收状态名称":['已接收','未接收'],
+    "是否有效启用状态":['是','否'],
+    "核销状态":['已核销','未核销'],
+    "资产状态":['在用','报废'],
+    "资产处置回收方式":['集中处置'],
+    "处置形式名称":['报废'],
+    "折旧/摊销方法名称":['年限平均法（摊销）','不折旧'],
+    "折旧/摊销状态名称":['提折旧','不提折旧']
+  }
+  const firstSelect = document.getElementById('first-select');
+  const secondSelect = document.getElementById('second-select');
+  // 根据第一个下拉框的选择动态更新第二个下拉框的内容
+  function updateSecondSelect() {
+    const selectedCategory = firstSelect.value;
+    const items = options[selectedCategory] || [];
+
+    // 清空第二个下拉框
+    secondSelect.innerHTML = '';
+
+    // 为第二个下拉框添加新的选项
+    items.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item;
+      option.textContent = item;
+      secondSelect.appendChild(option);
+    });
+  }
+
+  // 初始化时根据第一个下拉框的默认选项填充第二个下拉框
+  updateSecondSelect();
+
+  // 监听第一个下拉框的变化
+  firstSelect.addEventListener('change', updateSecondSelect);
+
+
   //展示表单
   function showBox(boxId) {
     // 隐藏所有表单
@@ -118,6 +158,18 @@ function openPLModal(attributeValue) {
   dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
 }
 
+//打开修改状态弹框
+function openZTModal(attributeValue) {
+  console.log(attributeValue);
+  // 显示弹窗
+  var modal = document.getElementById('formModalZt');
+  modal.style.display = 'block';
+  // 修改弹窗标题和动态表单属性
+  var modalTitle = document.getElementById('modalTitleZt');
+  modalTitle.innerText = '操作内容：' + attributeValue;
+
+}
+
 // 关闭弹窗
 function closeModal(id) {
   var modal = document.getElementById(id);
@@ -139,6 +191,8 @@ function handleSubmit(event,id) {
   let name = ''
   let data = ''
   let BSname = ''
+  let ztKey = ''
+  let ztValue = ''
   // 打印表单数据用于调试
   for (var [key, value] of formData.entries()) {
     console.log(key, value);
@@ -156,12 +210,16 @@ function handleSubmit(event,id) {
       choose = value;
     }else if(key === 'BSname'){
       BSname = value;
+    }else if(key === 'ztKey'){
+      ztKey = value;
+    }else if(key === 'ztValue'){
+      ztValue = value;
     }else{
       name = key;
       data = value;
     }
   }
-  console.log(account1, pwd1, belongCode1, code,choose, name, data);
+  console.log(account1, pwd1, belongCode1, code,choose, ztKey, ztValue);
   let baseUrl = '';
   let queryParams = '';
   let fullUrl='';
@@ -212,6 +270,10 @@ function handleSubmit(event,id) {
   } else if(name === "删除资产锁"){
     baseUrl = 'https://api.assetzj.cn/ChuangTest/Tools/deleteAllLocks'
     queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}`;
+    fullUrl = baseUrl + queryParams;
+  } else if(name === '修改状态'){
+    baseUrl = 'https://api.assetzj.cn/ChuangTest/Tools/updateAssetType'
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&key=${ztKey}&value=${ztValue}`;
     fullUrl = baseUrl + queryParams;
   } else if(name === '批量删除'){
     fullUrl = 'https://api.assetzj.cn/lddTest/22'
