@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="imaegs/MSLOGO1.gif" type="image/x-icon">
+  <title>码上智慧</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <header>
+    <h1>运维天命人</h1>
+  </header>
+  <main>
+    <section class="sidebar">
+      <ul>
+        <li><a href="#" onclick='showBox("box1")'>数据操作</a></li>
+        <li><a href="#" onclick="showBox('box2')">月结相关</a></li>
+        <li><a href="#" onclick="showBox('box3')">总账相关</a></li>
+      </ul>
+    </section>
+    <section class="content">
+      <div id="box1" class="boxs">
+        <h2>数据操作</h2>
+        <hr>
+        <div class="grid-container">
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('取得日期')">取得日期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('数量/面积')">数量/面积</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('计量单位')">计量单位</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('规格型号')">规格型号</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('会计凭证号')">会计凭证号</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('投入使用日期')">投入使用日期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('是否终审')">是否终审</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('是否有效启用状态')">是否有效启用状态</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('月折旧/摊销额')">月折旧/摊销额</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('资产负债表')">资产负债表</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('坐落位置')">坐落位置</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('删除资产')">删除资产</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('销账恢复')">销账恢复</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openPLModal('批量删除')">批量删除</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openPLModal('批量刷使用人使用部门')">批量刷使用人使用部门(名称)</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openPLModal('批量折旧归零')">批量折旧归零</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openPLModal('批量恢复')">批量恢复</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('删除资产锁')">删除资产锁</a>
+          </div>
+          <!-- 更多网格内容 -->
+        </div>
+      </div>
+      <div id="box2" class="boxs">
+        <h2>月结相关</h2>
+        <hr>
+        <div class="grid-container">
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('清空账期')">清空账期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('修改当前业务账期')">修改当前业务账期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('生成新账期')">生成新账期</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openFormModal('删除重复账期')">删除重复账期</a>
+          </div>
+        </div>
+      </div>
+      <div id="box3" class="boxs">
+        <h2>总账相关</h2>
+        <hr>
+        <div class="grid-container">
+          <div class="grid-item">
+            <a href="#" onclick="openZongZhangModal('资产入账')">资产入账</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openZongZhangModal('入库入账修复')">入库入账修复</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openReplaceModal('期初期末数据为空')">期初期末数据为空</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openDeleteModal('删除总账记录')">删除总账记录</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openDeleteModal('删除总账折旧记录')">删除总账折旧记录</a>
+          </div>
+          <div class="grid-item">
+            <a href="#" onclick="openZongZhangModal('资产销账')">资产销账</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="formModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModal')">&times;</span>
+      <h4 id="modalTitle">表单</h4>
+      <table>
+        <form id="dynamicForm" onsubmit="handleSubmit(event,'dynamicForm')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">唯一标识：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="code" name="id">
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabel" for="dynamicInput">字段名：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInput" name="dynamicAttribute">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+  <!-- 总账弹框 -->
+  <div id="formModalZZ" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalZZ')">&times;</span>
+      <h4 id="modalTitleZZ">表单</h4>
+      <table>
+        <form id="dynamicFormZZ" onsubmit="handleSubmit(event,'dynamicFormZZ')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">唯一标识：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="code" name="id">
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabelZZ" for="dynamicInput">月份：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputZZ" name="dynamicAttribute">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+  <!-- 期初期末为空弹框 -->
+  <div id="formModalZZ1" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalZZ1')">&times;</span>
+      <h4 id="modalTitleZZ1">表单</h4>
+      <table>
+        <form id="dynamicFormZZ1" onsubmit="handleSubmit(event,'dynamicFormZZ1')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">目标账期：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="collName" name="collName" placeholder="_system-things/_system-things_2024-07" required>
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabelZZ1" for="dynamicInput">数据源：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputZZ1" name="dynamicAttribute" placeholder="7月就填_system-things_2024-06">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+  <!-- 总账记录删除 -->
+  <div id="formModalZZ2" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalZZ2')">&times;</span>
+      <h4 id="modalTitleZZ2">表单</h4>
+      <table>
+        <form id="dynamicFormZZ2" onsubmit="handleSubmit(event,'dynamicFormZZ2')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">唯一标识：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="code" name="id" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="choose">增加/减少：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="choose" name="choose" placeholder="删除增加填1，删除减少填-1" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="BSname">办事名称：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="BSname" name="BSname" required>
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabelZZ2" for="dynamicInput">月份：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputZZ2" name="dynamicAttribute">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+  <!-- 批量操作 -->
+  <div id="formModalPL" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalPL')">&times;</span>
+      <h4 id="modalTitlePL">表单</h4>
+      <form id="dynamicFormPL" onsubmit="handleSubmit(event,'dynamicFormPL')">
+      <table>
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="fileInput">唯一标识上传文件：</label>
+            </td>
+            <td class="right">
+              <input type="file" id="fileInput" name="fileInput">
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+              <label id="dynamicLabelPL" for="dynamicInput">批量删除：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputPL" name="dynamicAttribute">
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="index.js"></script>
+</html>
