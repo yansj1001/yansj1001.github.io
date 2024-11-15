@@ -167,6 +167,8 @@ function openZTModal(attributeValue) {
   // 修改弹窗标题和动态表单属性
   var modalTitle = document.getElementById('modalTitleZt');
   modalTitle.innerText = '操作内容：' + attributeValue;
+  var dynamicInput = document.getElementById('dynamicInputZt');
+  dynamicInput.name = attributeValue;
 
 }
 
