@@ -83,6 +83,9 @@
           <div class="grid-item">
             <a href="#" onclick="openZTModal('修改状态')">修改状态</a>
           </div>
+          <div class="grid-item">
+            <a href="#" onclick="openDelBSModal('删除已完结办事')">删除已完结办事</a>
+          </div>
           <!-- 更多网格内容 -->
         </div>
       </div>
@@ -499,6 +502,68 @@
               <select id="second-select" name="ztValue">
                 <!-- 默认选项 -->
               </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputZt" name="dynamicAttribute" hidden>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center">
+              <button type="submit" id="submitButton" class="btn">提交</button>
+            </td>
+          </tr>
+        </form>
+      </table>
+    </div>
+  </div>
+  <div id="formModalBS" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('formModalBS')">&times;</span>
+      <h4 id="modalTitleBS">表单</h4>
+      <table>
+        <form id="dynamicFormBS" onsubmit="handleSubmit(event,'dynamicFormBS')">
+          <tr>
+            <td class="left">
+              <label for="account">账号：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="account" name="account" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="pwd">密码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="pwd" name="pwd" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="belongCode">信用代码：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="belongCode" name="belongCode" required>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">
+              <label for="id">办事二维码ID：</label>
+            </td>
+            <td class="right">
+              <input type="text" id="code" name="id">
+            </td>
+          </tr>
+          <!-- 动态修改属性名的输入字段 -->
+          <tr>
+            <td class="left">
+            </td>
+            <td class="right">
+              <input type="text" id="dynamicInputBS" name="dynamicAttribute" hidden>
             </td>
           </tr>
           <tr>

@@ -167,7 +167,21 @@ function openZTModal(attributeValue) {
   // 修改弹窗标题和动态表单属性
   var modalTitle = document.getElementById('modalTitleZt');
   modalTitle.innerText = '操作内容：' + attributeValue;
+  var dynamicInput = document.getElementById('dynamicInputZt');
+  dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
+}
 
+//打开删除办事弹框
+function openDelBSModal(attributeValue) {
+  console.log(attributeValue);
+  // 显示弹窗
+  var modal = document.getElementById('formModalBS');
+  modal.style.display = 'block';
+  // 修改弹窗标题和动态表单属性
+  var modalTitle = document.getElementById('modalTitleBS');
+  modalTitle.innerText = '操作内容：' + attributeValue;
+  var dynamicInput = document.getElementById('dynamicInputBS');
+  dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
 }
 
 // 关闭弹窗
@@ -275,7 +289,11 @@ function handleSubmit(event,id) {
     baseUrl = 'https://api.assetzj.cn/ChuangTest/Tools/updateAssetType'
     queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&key=${ztKey}&value=${ztValue}`;
     fullUrl = baseUrl + queryParams;
-  } else if(name === '批量删除'){
+  } else if(name === '删除已完结办事'){
+    baseUrl = 'https://api.assetzj.cn/lddTest/33'
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}`;
+    fullUrl = baseUrl + queryParams;
+  }else if(name === '批量删除'){
     fullUrl = 'https://api.assetzj.cn/lddTest/22'
     const requestData = {
         account: account1,
