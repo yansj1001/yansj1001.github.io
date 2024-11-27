@@ -10,15 +10,23 @@
 </head>
 
 <body>
+  <!-- 添加loading组件 -->
+  <div id="loading" class="loading">
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">正在处理中，请稍候...</div>
+    </div>
+  </div>
+  
   <header>
     <h1>运维天命人</h1>
   </header>
   <main>
     <section class="sidebar">
       <ul>
-        <li><a href="#" onclick='showBox("box1")'>数据操作</a></li>
-        <li><a href="#" onclick="showBox('box2')">月结相关</a></li>
-        <li><a href="#" onclick="showBox('box3')">总账相关</a></li>
+        <li><a href="#" class="nav-link active" onclick="showBox('box1', this)">数据操作</a></li>
+        <li><a href="#" class="nav-link" onclick="showBox('box2', this)">月结相关</a></li>
+        <li><a href="#" class="nav-link" onclick="showBox('box3', this)">总账相关</a></li>
       </ul>
     </section>
     <section class="content">

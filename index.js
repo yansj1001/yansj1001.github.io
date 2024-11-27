@@ -1,7 +1,7 @@
 let dataArray = []
   //获取文件数据
   document.getElementById('fileInput').addEventListener('change', function (e) {
-    const file = event.target.files[0];
+    const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = function(e) {
       const data = new Uint8Array(e.target.result);
@@ -71,12 +71,24 @@ let dataArray = []
 
 
   //展示表单
-  function showBox(boxId) {
+  function showBox(boxId, element) {
     // 隐藏所有表单
     var boxs = document.querySelectorAll('.boxs');
     boxs.forEach((box) => {
       box.classList.remove('is-active');
     });
+    
+    // 移除所有导航链接的active类
+    var navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach((link) => {
+      link.classList.remove('active');
+    });
+    
+    // 为当前点击的链接添加active类
+    if (element) {
+      element.classList.add('active');
+    }
+    
     // 显示指定表单
     var selectedBox = document.getElementById(boxId);
     if (selectedBox) {
@@ -341,36 +353,105 @@ function handleSubmit(event,id) {
   sendGet(fullUrl)
 }
 
-//发送get请求
-function sendGet(fullUrl){
-    //TODO: 使用 fetch 或 AJAX 发送请求
-    fetch(fullUrl, {
-     method: 'GET'
-   }).then(response => response.json())
-     .then(data => {
-       console.log(data)
-       alert(JSON.stringify(data))
-     })
-     .catch(error => console.error('Error:', error));
-}
-//发送post请求
-function sendPost(fullUrl,data){
-  fetch(fullUrl, {
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        data
-      })
-    }).then(response => response.json()).then(data => {
-      console.log(data)
-      alert(JSON.stringify(data))
-    })
-    console.log(fullUrl);
+// 显示/隐藏loading的函数
+function toggleLoading(show) {
+  const loading = document.getElementById('loading');
+  const mainContent = document.querySelector('main');
+  const modals = document.querySelectorAll('.modal');
+  
+  if (show) {
+    // 显示loading时
+    loading.classList.add('show');
+    // 禁用主内容区域
+    mainContent.classList.add('disabled');
+    // 禁用所有模态框
+    modals.forEach(modal => {
+      modal.classList.add('disabled');
+    });
+    // 禁用所有按钮和输入框
+    document.querySelectorAll('button, input, select, a').forEach(element => {
+      element.classList.add('disabled');
+    });
+  } else {
+    // 隐藏loading时
+    loading.classList.remove('show');
+    // 启用主内容区域
+    mainContent.classList.remove('disabled');
+    // 启用所有模态框
+    modals.forEach(modal => {
+      modal.classList.remove('disabled');
+    });
+    // 启用所有按钮和输入框
+    document.querySelectorAll('button, input, select, a').forEach(element => {
+      element.classList.remove('disabled');
+    });
+  }
 }
 
-  // 页面加载时默认展示第一个表单
+// 修改GET请求函数
+function sendGet(fullUrl) {
+  // 关闭所有modal
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.style.display = 'none';
+  });
+  
+  toggleLoading(true); // 显示loading
+  
+  fetch(fullUrl, {
+    method: 'GET'
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      alert(JSON.stringify(data));
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('请求失败: ' + error.message);
+    })
+    .finally(() => {
+      toggleLoading(false); // 隐藏loading
+    });
+}
+
+// 修改POST请求函数
+function sendPost(fullUrl, data) {
+  // 关闭所有modal
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.style.display = 'none';
+  });
+  
+  toggleLoading(true); // 显示loading
+  
+  fetch(fullUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      data
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      toggleLoading(false); // 先关闭loading
+      // 使用setTimeout确保loading动画完全消失后再显示alert
+      setTimeout(() => {
+        alert(JSON.stringify(data));
+      }, 100);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      toggleLoading(false); // 先关闭loading
+      setTimeout(() => {
+        alert('请求失败: ' + error.message);
+      }, 100);
+    });
+}
+
+  // 页面加载时默认展示第一个表单和激活第一个导航项
   window.onload = function () {
-    showBox('box1');  // 默认展示表单 1
+    const firstNavLink = document.querySelector('.nav-link');
+    showBox('box1', firstNavLink);
   };
