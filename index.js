@@ -397,32 +397,43 @@ function sendGet(fullUrl) {
   
   toggleLoading(true); // 显示loading
   
+  // 添加15秒超时控制
+  const timeoutId = setTimeout(() => {
+    toggleLoading(false);
+  }, 15000);
+
   fetch(fullUrl, {
     method: 'GET'
   })
     .then(response => response.json())
     .then(data => {
+      clearTimeout(timeoutId); // 清除超时计时器
       console.log(data);
       alert(JSON.stringify(data));
     })
     .catch(error => {
+      clearTimeout(timeoutId); // 清除超时计时器
       console.error('Error:', error);
       alert('请求失败: ' + error.message);
     })
     .finally(() => {
-      toggleLoading(false); // 隐藏loading
+      toggleLoading(false);
     });
 }
 
 // 修改POST请求函数
 function sendPost(fullUrl, data) {
-  // 关闭所有modal
   document.querySelectorAll('.modal').forEach(modal => {
     modal.style.display = 'none';
   });
   
-  toggleLoading(true); // 显示loading
+  toggleLoading(true);
   
+  // 添加15秒超时控制
+  const timeoutId = setTimeout(() => {
+    toggleLoading(false);
+  }, 15000);
+
   fetch(fullUrl, {
     method: 'POST',
     headers: {
@@ -434,16 +445,17 @@ function sendPost(fullUrl, data) {
   })
     .then(response => response.json())
     .then(data => {
+      clearTimeout(timeoutId); // 清除超时计时器
       console.log(data);
-      toggleLoading(false); // 先关闭loading
-      // 使用setTimeout确保loading动画完全消失后再显示alert
+      toggleLoading(false);
       setTimeout(() => {
         alert(JSON.stringify(data));
       }, 100);
     })
     .catch(error => {
+      clearTimeout(timeoutId); // 清除超时计时器
       console.error('Error:', error);
-      toggleLoading(false); // 先关闭loading
+      toggleLoading(false);
       setTimeout(() => {
         alert('请求失败: ' + error.message);
       }, 100);
