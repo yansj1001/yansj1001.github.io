@@ -279,7 +279,7 @@ function handleSubmit(event,id) {
     fullUrl = baseUrl + queryParams;
   } else if(name === '删除总账记录'){
     baseUrl = 'https://api.assetzj.cn/YansjTest/Tools/deleteRecord';
-    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&time=${data}&flag=${choose}&name=${BSname}`;
+    queryParams = `?account=${account1}&pwd=${pwd1}&belongCode=${belongCode1}&id=${code}&time=${data}&flag=${choose}&name=${encodeURIComponent(BSname)}`;
     fullUrl = baseUrl + queryParams;
   } else if(name === '删除总账折旧记录'){
     baseUrl = 'https://api.assetzj.cn/YansjTest/Tools/deleteZheJiu'
