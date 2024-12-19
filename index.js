@@ -166,7 +166,11 @@ function openPLModal(attributeValue) {
   var dynamicInput = document.getElementById('dynamicInputPL');
   console.log(dynamicInput)
   modalTitle.innerText = '操作内容：' + attributeValue;
-  dynamicLabel.innerText = attributeValue + '：';
+  if(attributeValue === '批量删除总账记录'){
+    dynamicLabel.innerText = '月份：';
+  } else {
+    dynamicLabel.innerText = attributeValue + '：';
+  }
   dynamicInput.name = attributeValue;  // 动态设置 input 的属性名
 }
 
@@ -349,6 +353,16 @@ function handleSubmit(event,id) {
       };
       sendPost(fullUrl, requestData);
       return 
+  } else if(name === '批量删除总账记录'){
+    fullUrl = 'https://api.assetzj.cn/YansjTest/Tools/delAllRecord'
+    const requestData = {
+        account: account1,
+        pwd: decodeURIComponent(pwd1),
+        belongCode: belongCode1,
+        ids: dataArray // 包含解析的 Excel 数据
+      };
+    sendPost(fullUrl,requestData)
+    return
   }
   console.log(fullUrl)
   sendGet(fullUrl)
